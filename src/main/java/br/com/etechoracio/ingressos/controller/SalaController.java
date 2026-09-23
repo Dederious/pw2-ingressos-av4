@@ -1,16 +1,13 @@
 package br.com.etechoracio.ingressos.controller;
 
-import br.com.etechoracio.ingressos.entity.Filme;
 import br.com.etechoracio.ingressos.entity.Sala;
-import br.com.etechoracio.ingressos.repository.FilmeRepository;
 import br.com.etechoracio.ingressos.repository.SalaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 @RestController
 @RequestMapping("/salas")
 @CrossOrigin("*")
@@ -23,5 +20,12 @@ public class SalaController {
         return salaRepository.findAll();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Sala> buscarPorId(@PathVariable Long id){
+        var sala = salaRepository.findById(id);
+        if(sala.isPresent())
+            return ResponseEntity.ok(sala.get());
+        return ResponseEntity.notFound().build();
+    }
 }
 
